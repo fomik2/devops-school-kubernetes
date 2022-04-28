@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-canary
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: canary
+  template:
+    metadata:
+      labels:
+        app: canary
+    spec:
+      containers:
+      - name: nginx-canary
+        image: nginx:1.14.2    
+        volumeMounts:
+          - name: config-volume
+            mountPath: /tmp
+            readOnly: true
+        env:
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MY_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        command:  ["/bin/bash", "-c", "envsubst < /tmp/mysite.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+        ports:
+        - containerPort: 80
+      volumes:
+        - name: config-volume
+          configMap:
+            name: canary-nginx-configmap
+            
+---
+apiVersion: v1
+data:
+  mysite.template: |
+    server {
+        listen 80 default_server;
+        server_name _;
+        default_type text/plain;
+        location / {
+            return 200 ${MY_POD_NAMESPACE};
+        }
+    }
+kind: ConfigMap
+metadata:
+  name: canary-nginx-configmap
+ 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: canary-svc
+spec:
+  type: ClusterIP
+  ports:
+  - name: canary
+    port: 8080
+    targetPort: 80
+  selector:
+    app: canary
+ 
+
+

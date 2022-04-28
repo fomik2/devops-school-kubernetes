@@ -24,3 +24,5 @@ echo-canary
 ```console
 echo-non-canary
 ```
+
+For percentage redirection we should use `nginx.ingress.kubernetes.io/canary-weight: "10"` instead of `nginx.ingress.kubernetes.io/canary-by-header: canary` in annotations section on ingress yaml file. 

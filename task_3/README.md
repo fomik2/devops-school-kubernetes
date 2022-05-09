@@ -12,7 +12,7 @@ Create deploy with emptyDir save data to mountPoint emptyDir, delete pods, check
 3. Create ingress for nginx. On this stage we can open minio by ip_minikube and ip_mininkube/web return hostname to us.  
 `kubectl apply -f nginx-ingress.yaml`  
 
-4. Do the task "Create deploy with emptyDir save data to mountPoint emptyDir, delete pods, check data."  
+4. Do the task "Create deploy with emptyDir save data to mountPoint emptyDir, delete pods and then check data. Result manifest is nginx-emptyDir.yaml in this repo   
     - add emptyDir volume to nginx.yaml
 	```
 	volumes:

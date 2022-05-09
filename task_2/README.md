@@ -1,5 +1,5 @@
 ### Таск 2 ###  
-Implement Canary deployment of an application via Ingress. Traffic to canary deployment should be redirected if you add "canary:always" in the header, otherwise it should go to regular deployment.  
+>Implement Canary deployment of an application via Ingress. Traffic to canary deployment should be redirected if you add "canary:always" in the header, otherwise it should go to regular deployment.  
 Set to redirect a percentage of traffic to canary deployment.  
 
 1. Create two namespaces in our kubernetes cluster:  
@@ -24,3 +24,5 @@ echo-canary
 ```console
 echo-non-canary
 ```
+
+For percentage redirection we should use `nginx.ingress.kubernetes.io/canary-weight: "10"` instead of `nginx.ingress.kubernetes.io/canary-by-header: canary` in annotations section on ingress yaml file. 

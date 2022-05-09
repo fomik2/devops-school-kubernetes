@@ -1,7 +1,7 @@
 ### Таск 3 ###  
-We published minio "outside" using nodePort. Do the same but using ingress.  
-Publish minio via ingress so that minio by ip_minikube and nginx returning hostname (previous job) by path ip_minikube/web are available at the same time.  
-Create deploy with emptyDir save data to mountPoint emptyDir, delete pods, check data.   
+*We published minio "outside" using nodePort. Do the same but using ingress.  
+*Publish minio via ingress so that minio by ip_minikube and nginx returning hostname (previous job) by path ip_minikube/web are available at the same time.  
+*Create deploy with emptyDir save data to mountPoint emptyDir, delete pods, check data.  
 
 1. Create Ingress for minio. At this stage we can open ip_minikube by http and enter minio   
 `kubectl apply -f ingress-minio.yaml`   

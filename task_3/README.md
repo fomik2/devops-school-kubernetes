@@ -13,3 +13,34 @@ Create deploy with emptyDir save data to mountPoint emptyDir, delete pods, check
 `kubectl apply -f nginx-ingress.yaml`  
 
 4. Do the task "Create deploy with emptyDir save data to mountPoint emptyDir, delete pods, check data."  
+    - add emptyDir volume to nginx.yaml
+	```
+	volumes:
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+            # items:
+              # - key: default.conf
+                # path: default.conf
+        - name: emptydir
+          emptyDir: {}
+	```
+	- add VolumeMount to container:
+	```
+	volumeMounts:
+          - name: nginx-conf 
+            mountPath: /etc/nginx/conf.d
+            readOnly: true
+          - name: emptydir
+            mountPath: /tmp/emptydir       
+	```
+	- then check mount, delete pod and check it again:
+	```
+	minikube ssh
+	$ sudo find / -name my_test_file
+	/mnt/sda1/var/lib/kubelet/pods/0738edda-085f-4863-afd4-590711c966e1/volumes/kubernetes.io~empty-dir/emptydir/my_test_file
+	/var/lib/kubelet/pods/0738edda-085f-4863-afd4-590711c966e1/volumes/kubernetes.io~empty-dir/emptydir/my_test_file
+	
+	kubectl delete -f nginx.yaml
+	sudo find / -name my_test_file find nothing
+	```

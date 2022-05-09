@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx	
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: nginx-conf 
+            mountPath: /etc/nginx/conf.d
+            readOnly: true
+          - name: emptydir
+            mountPath: /tmp/emptydir                        
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+            # items:
+              # - key: default.conf
+                # path: default.conf
+        - name: emptydir
+          emptyDir: {}
+          
+            
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+data:
+  default.conf: |
+    server {
+        listen 80 default_server;
+        server_name _;
+        default_type text/plain;
+        location / {
+            return 200 $hostname;
+        }
+    }
+
+ 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+spec:
+  type: ClusterIP
+  ports:
+  - name: nginx
+    port: 80
+    targetPort: 80
+  selector:
+    app: nginx
+ 

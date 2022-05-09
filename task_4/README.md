@@ -75,5 +75,10 @@ kubectl run nginx --image=nginx --restart=Never -n prod -- this command is OK
 `kubectl apply -f serviceacc.yaml`
 
 2. Create contex and test grants
-`kubectl config set-context sa-namespace-admin --cluster=minikube --user=sa-namespace-admin`
-`kubectl config use-context sa-namespace-admin`
+`kubectl describe sa` -- берем имя токена  
+`kubectl get secrets -n default sa-namespace-admin-token-m8dbq -o json`  -- берем сам токен и делаем decode base64
+`kubectl config set-context sa-namespace-admin --cluster=minikube --user=sa-namespace-admin`  
+`kubectl config use-context sa-namespace-admin`  
+
+
+eyJhbGciOiJSUzI1NiIsImtpZCI6InNEYlVuMXZwY0NXMGhBWFIxR0dkM0ZLLWZBb1dSM1NjeUtuVE0xTkh4dXMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6InNhLW5hbWVzcGFjZS1hZG1pbi10b2tlbi1tOGRicSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJzYS1uYW1lc3BhY2UtYWRtaW4iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkNDFlYzUwMi1hY2Q2LTRjMTgtODdkYy1jYWM0N2NhMmU2MzYiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDpzYS1uYW1lc3BhY2UtYWRtaW4ifQ.MwsGXH3qQ2rNbYx_LWhHiZNvpNFZRV_-kXR7tgSQAH01zb2kT6UvI6P8QCkMvTugp001ScHmlWGKe-o_NLvSHFBwCov0LMfbcqWn0EKG-8w2Bs0tZtA8ycj1f6rK_2ZYqeql3mHnYbUWdZN1jZz36sKNBLAuPhAes3M7MnAc8q8kPXfBZmERqjp_RgGnVXHfLn-vaV282JXJyg0Y5vjB0XmldrdBaQ8AOdF77n-LJYKw364jap5E5_AVQTvG-3gpESmIxNi2Yex4WSC2hquMiUITAEfogftaEwE167-JrcYnvQy4amcYTjLoQWti0T6mrbYOU5zAlom36dPq8VENpg

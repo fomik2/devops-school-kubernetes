@@ -23,15 +23,7 @@ kind: Role
 metadata:
   name: full-right
 rules:
-- apiGroups:
-  - "*"
+- apiGroups: ["*"]
   resources: ["*"]
-  verbs:
-  - get
-  - list
-  - watch
-  - create
-  - update
-  - patch
-  - delete
-  
+  verbs: ["*"]
+ 

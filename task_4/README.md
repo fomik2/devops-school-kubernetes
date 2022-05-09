@@ -74,9 +74,9 @@ kubectl run nginx --image=nginx --restart=Never -n prod -- this command is OK
 1. Create service account, role and bind role to this account  
 `kubectl apply -f serviceacc.yaml`
 
-2. Create contex and test grants
+2. Create contex and test grants  
 `kubectl describe sa` -- берем имя токена  
-`kubectl get secrets -n default sa-namespace-admin-token-m8dbq -o json`  -- берем сам токен и делаем decode base64
+`kubectl get secrets -n default sa-namespace-admin-token-m8dbq -o json`  -- берем сам токен и делаем decode base64  
 `kubectl config set-context sa-namespace-admin --cluster=minikube --user=sa-namespace-admin`  
-`kubectl config set-credentials sa-namespace-admin --token=.....` -- добавляем изменяем креды
+`kubectl config set-credentials sa-namespace-admin --token=.....` -- добавляем изменяем креды  
 `kubectl config use-context sa-namespace-admin`  
